@@ -1,7 +1,39 @@
-interface String {
-    repeat(count: number): string;
-    startsWith(searchString: string, endPosition?: number): boolean;
-    endsWith(searchString: string, endPosition?: number): boolean;
+// string.repeat implementation
+function repeat(str: string, count: number): string {
+    if (count < 0) {
+        return "";
+    }
+    let result = "";
+    for (let i = 0; i < count; i++) {
+        result += str;
+    }
+    return result;
+}
+
+// string.lastIndexOf implementation
+function lastIndexOf(str: string, searchElement: string, fromIndex?: number): number {
+    let index = str.length - 1;
+    if (fromIndex !== undefined) {
+        index = fromIndex < 0 ? str.length + fromIndex : fromIndex;
+    }
+    for (let i = index; i >= 0; i--) {
+        if (str[i] === searchElement) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// string.startsWith implementation
+function startsWith(str: string, search: string, position?: number): boolean {
+    position = position || 0;
+    return str.indexOf(search, position) === position;
+}
+
+// string.endsWith implementation
+function endsWith(str: string, search: string, position?: number): boolean {
+    position = position !== undefined ? position : str.length;
+    return lastIndexOf(str, search, position) === position - search.length;
 }
 
 //% color="#F24848" icon="\uf067" weight=30 block="Utilities"
@@ -10,12 +42,27 @@ namespace storage {
     //% block="try"
     //% blockId="try_code"
     //% group='Exceptions'
-    //% weight=6
+    //% weight=7
+    //% handlerStatement=false
     export function tryCode(code: () => void): void {
         try {
             code();
         } catch { }
     }
+
+    /*
+    //% block="try catch"
+    //% blockId="try_catch_code"
+    //% group='Exceptions'
+    //% weight=6
+    export function tryCatchCode(tryCode: () => void, catchCode: (errorName: string) => void): void {
+        try {
+            tryCode();
+        } catch (error) {
+            catchCode(error.name);
+        }
+    }
+    */
 
     //% block="if $bool then $value1 else $value2"
     //% blockId="if_then_else"
@@ -41,7 +88,7 @@ namespace storage {
     //% text.defl="Hey! "
     //% amount.defl=5
     export function multiplyString(text: string, amount: number): any {
-        return text.repeat(amount);
+        return repeat(text, amount);
     }
 
     //% block="$text starts with $search?"
@@ -51,7 +98,7 @@ namespace storage {
     //% text.defl="Hello World!"
     //% search.defl="Hello"
     export function startsWith(text: string, search: string): boolean {
-        return text.startsWith(search);
+        return startsWith(text, search);
     }
 
     //% block="$text ends with $search?"
@@ -61,7 +108,7 @@ namespace storage {
     //% text.defl="Hello World!"
     //% search.defl="World!"
     export function endsWith(text: string, search: string): boolean {
-        return text.endsWith(search);
+        return endsWith(text, search);
     }
 
     //% block="$item to JSON"
