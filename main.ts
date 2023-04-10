@@ -1,30 +1,18 @@
-function lastIndexOf(str: string, searchValue: string, fromIndex?: number): number {
-    if (fromIndex === undefined) {
-        fromIndex = str.length - 1;
-    }
-    for (let i = fromIndex; i >= 0; i--) {
-        if (str.substr(i, searchValue.length) === searchValue) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-function startsWith(str: string, searchValue: string, position?: number): boolean {
+function _startsWith(str: string, searchValue: string, position?: number): boolean {
     if (position === undefined) {
         position = 0;
     }
     return str.substr(position, searchValue.length) === searchValue;
 }
 
-function endsWith(str: string, searchValue: string, position?: number): boolean {
+function _endsWith(str: string, searchValue: string, position?: number): boolean {
     if (position === undefined || position > str.length) {
         position = str.length;
     }
     return str.substr(position - searchValue.length, searchValue.length) === searchValue;
 }
 
-function repeat(str: string, count: number): string {
+function _repeat(str: string, count: number): string {
     let result = '';
     for (let i = 0; i < count; i++) {
         result += str;
@@ -59,7 +47,7 @@ namespace storage {
     //% text.defl="Hey! "
     //% amount.defl=5
     export function multiplyString(text: string, amount: number): any {
-        return repeat(text, amount);
+        return _repeat(text, amount);
     }
 
     //% block="$text starts with $search?"
@@ -69,7 +57,7 @@ namespace storage {
     //% text.defl="Hello World!"
     //% search.defl="Hello"
     export function startsWith(text: string, search: string): boolean {
-        return startsWith(text, search);
+        return _startsWith(text, search);
     }
 
     //% block="$text ends with $search?"
@@ -79,7 +67,7 @@ namespace storage {
     //% text.defl="Hello World!"
     //% search.defl="World!"
     export function endsWith(text: string, search: string): boolean {
-        return endsWith(text, search);
+        return _endsWith(text, search);
     }
 
     //% block="$item to JSON"
