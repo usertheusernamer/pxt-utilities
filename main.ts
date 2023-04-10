@@ -1,69 +1,40 @@
-// string.repeat implementation
-function repeat(str: string, count: number): string {
-    if (count < 0) {
-        return "";
+function lastIndexOf(str: string, searchValue: string, fromIndex?: number): number {
+    if (fromIndex === undefined) {
+        fromIndex = str.length - 1;
     }
-    let result = "";
-    for (let i = 0; i < count; i++) {
-        result += str;
-    }
-    return result;
-}
-
-// string.lastIndexOf implementation
-function lastIndexOf(str: string, searchElement: string, fromIndex?: number): number {
-    let index = str.length - 1;
-    if (fromIndex !== undefined) {
-        index = fromIndex < 0 ? str.length + fromIndex : fromIndex;
-    }
-    for (let i = index; i >= 0; i--) {
-        if (str[i] === searchElement) {
+    for (let i = fromIndex; i >= 0; i--) {
+        if (str.substr(i, searchValue.length) === searchValue) {
             return i;
         }
     }
     return -1;
 }
 
-// string.startsWith implementation
-function startsWith(str: string, search: string, position?: number): boolean {
-    position = position || 0;
-    return str.indexOf(search, position) === position;
+function startsWith(str: string, searchValue: string, position?: number): boolean {
+    if (position === undefined) {
+        position = 0;
+    }
+    return str.substr(position, searchValue.length) === searchValue;
 }
 
-// string.endsWith implementation
-function endsWith(str: string, search: string, position?: number): boolean {
-    position = position !== undefined ? position : str.length;
-    return lastIndexOf(str, search, position) === position - search.length;
+function endsWith(str: string, searchValue: string, position?: number): boolean {
+    if (position === undefined || position > str.length) {
+        position = str.length;
+    }
+    return str.substr(position - searchValue.length, searchValue.length) === searchValue;
+}
+
+function repeat(str: string, count: number): string {
+    let result = '';
+    for (let i = 0; i < count; i++) {
+        result += str;
+    }
+    return result;
 }
 
 //% color="#F24848" icon="\uf067" weight=30 block="Utilities"
-//% groups=['Exceptions', 'Booleans', 'Text', 'JSON']
+//% groups=['Booleans', 'Text', 'JSON']
 namespace storage {
-    //% block="try"
-    //% blockId="try_code"
-    //% group='Exceptions'
-    //% weight=7
-    //% handlerStatement=false
-    export function tryCode(code: () => void): void {
-        try {
-            code();
-        } catch { }
-    }
-
-    /*
-    //% block="try catch"
-    //% blockId="try_catch_code"
-    //% group='Exceptions'
-    //% weight=6
-    export function tryCatchCode(tryCode: () => void, catchCode: (errorName: string) => void): void {
-        try {
-            tryCode();
-        } catch (error) {
-            catchCode(error.name);
-        }
-    }
-    */
-
     //% block="if $bool then $value1 else $value2"
     //% blockId="if_then_else"
     //% group='Booleans'
